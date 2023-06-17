@@ -1,6 +1,6 @@
 const sqlite3 = require('sqlite3');
 
-const db = new sqlite3.Database('./database.db', function (err) {
+const db = new sqlite3.Database('./chinook.db', function (err) {
   if (err) {
     console.log(err);
     process.exit(1);
@@ -20,8 +20,13 @@ const db = new sqlite3.Database('./database.db', function (err) {
 // });
 
 db.all(
-  'SELECT * FROM Customers WHERE customer_name=?',
-  ['Edward'],
+  'SELECT \n' +
+    '    Title,\n' +
+    '    Name\n' +
+    'FROM \n' +
+    '    albums\n' +
+    'INNER JOIN artists \n' +
+    '    ON artists.ArtistId = albums.ArtistId;',
   function (err, data) {
     if (err) {
       console.log(err);
@@ -32,9 +37,9 @@ db.all(
   }
 );
 
-db.run("INSERT INTO Customers VALUES (3, 'Jennifer')", function (err) {
-  if (err) {
-    console.log(err);
-    process.exit(1);
-  }
-});
+// db.run("INSERT INTO Customers VALUES (3, 'Jennifer')", function (err) {
+//   if (err) {
+//     console.log(err);
+//     process.exit(1);
+//   }
+// });
